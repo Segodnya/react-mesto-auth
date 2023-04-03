@@ -1,0 +1,4 @@
+.content__like-box {
+  display: flex;
+  flex-direction: column;
+}

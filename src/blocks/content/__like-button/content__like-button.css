@@ -1,0 +1,13 @@
+.content__like-button {
+  margin: 0;
+  width: 22px;
+  height: 19px;
+  background-image: url("../../../images/content__like-button_disabled.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.content__like-button:hover {
+  opacity: 0.5;
+}

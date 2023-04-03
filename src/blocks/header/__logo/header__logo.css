@@ -1,0 +1,16 @@
+.header__logo {
+  margin: 0;
+  margin-left: 27px;
+  display: block;
+  width: 103.74px;
+  height: 24.4px;
+  object-fit: cover;
+}
+
+@media screen and (min-width: 620px) {
+  .header__logo {
+    margin-left: 7px;
+    width: 142px;
+    height: 33px;
+  }
+}
