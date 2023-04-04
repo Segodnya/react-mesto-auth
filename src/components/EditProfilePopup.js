@@ -1,39 +1,30 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
+import useForm from "../hooks/useForm";
 
-const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
-  const [name, setName] = useState("");
-  const [about, setAbout] = useState("");
+const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, onLoading }) => {
   // Подписка на контекст
   const currentUser = useContext(CurrentUserContext);
+
+  const { enteredValues, errors, handleChange, isFormValid, resetForm } =
+    useForm();
 
   const handleSubmit = (e) => {
     // Запрещаем браузеру переходить по адресу формы
     e.preventDefault();
     // Передаём значения управляемых компонентов во внешний обработчик
     onUpdateUser({
-      name,
-      about,
+      name: enteredValues.name,
+      about: enteredValues.about,
     });
   };
 
-  // После загрузки текущего пользователя из API
-  // его данные будут использованы в управляемых компонентах.
   useEffect(() => {
-    if (currentUser.name && currentUser.about) {
-      setName(currentUser.name);
-      setAbout(currentUser.about);
+    if (currentUser) {
+      resetForm(currentUser);
     }
-  }, [currentUser, isOpen]);
-
-  const onNameChange = (e) => {
-    setName(e.target.value);
-  };
-
-  const onAboutChange = (e) => {
-    setAbout(e.target.value);
-  };
+  }, [currentUser, resetForm, isOpen]);
 
   return (
     <PopupWithForm
@@ -41,33 +32,41 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
       name="edit-profile"
       isOpen={isOpen}
       onClose={onClose}
-      btnText="Сохранить"
+      btnText={onLoading ? `Сохранение` : `Сохранить`}
       onSubmit={handleSubmit}
+      onLoading={onLoading}
+      isDisabled={!isFormValid}
     >
       <input
-        className="popup__input popup__input_type_name"
+        className={
+          errors.name ? "popup__input popup__input_type_error" : "popup__input"
+        }
+        id="name-input"
         type="text"
         name="name"
-        value={name || ""}
-        onChange={onNameChange}
+        value={enteredValues.name || ""}
+        onChange={handleChange}
         placeholder="Ваше имя"
         required
         minLength="2"
         maxLength="40"
       />
-      <span className="popup__error name-input-error" />
+      <span className="popup__error name-input-error">{errors.name}</span>
       <input
-        className="popup__input popup__input_type_about"
+        className={
+          errors.about ? "popup__input popup__input_type_error" : "popup__input"
+        }
+        id="about-input"
         type="text"
         name="about"
-        value={about || ""}
-        onChange={onAboutChange}
+        value={enteredValues.about || ""}
+        onChange={handleChange}
         placeholder="Ваша профессия"
         required
         minLength="2"
         maxLength="200"
       />
-      <span className="popup__error about-input-error" />
+      <span className="popup__error about-input-error">{errors.about}</span>
     </PopupWithForm>
   );
 };

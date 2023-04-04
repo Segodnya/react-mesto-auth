@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import trash from "../images/Trash.svg";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
 const hidden = { display: "none" };
@@ -17,7 +16,7 @@ const Card = ({
   // подписываем функциональный компонент на CurrentUserContext
   // и получаем значение контекста
   const user = useContext(CurrentUserContext);
-  const isOwn = card.owner._id !== user._id;
+  const isOwn = card.owner._id === user._id;
   const isLiked = card.likes.some((i) => i._id === user._id);
   const cardLikeButtonClassName = `button content__like-button ${
     isLiked ? "content__like-button_active" : ""
@@ -49,7 +48,7 @@ const Card = ({
         <button
           type="button"
           className="button content__delete-button"
-          style={isOwn ? hidden : null}
+          style={isOwn ? null : hidden}
           aria-label="Кнопка удаления поста"
           onClick={() => {
             onCardDelete(card);
