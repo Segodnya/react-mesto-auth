@@ -13,15 +13,19 @@ const Main = ({
 }) => {
   // подписываем функциональный компонент на CurrentUserContext
   // и получаем значение контекста
-  const profileContext = useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
   // Используйте поля объекта контекста вместо стейт-переменных
-  const { name, avatar, about } = profileContext;
+  const { name, avatar, about } = currentUser;
 
   return (
     <main>
       <section className="profile">
         <div className="profile__avatar-wrapper">
-          <button className="profile__avatar-button" onClick={onEditAvatar} />
+          <button
+            className="profile__avatar-button"
+            aria-label="Изменить аватар"
+            onClick={onEditAvatar}
+          />
           <img
             className="profile__avatar"
             src={avatar}
