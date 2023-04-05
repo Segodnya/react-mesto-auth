@@ -8,6 +8,8 @@ const PopupWithForm = ({
   onClose,
   btnText,
   onSubmit,
+  onLoading,
+  isDisabled,
 }) => {
   return (
     <div
@@ -27,9 +29,15 @@ const PopupWithForm = ({
           name={`${name}`}
           id={`${name}`}
           onSubmit={onSubmit}
+          noValidate
         >
           {children}
-          <button className="button popup__button" type="submit">
+          <button
+            type="submit"
+            className={`button popup__button ${
+              onLoading ? "popup__button_loading" : ""
+            } ${isDisabled ? "popup__button_disabled" : ""} `}
+          >
             {btnText}
           </button>
         </form>

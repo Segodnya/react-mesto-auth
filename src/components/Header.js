@@ -1,10 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../images/logo.svg";
+import { Link, useLocation } from "react-router-dom";
 
-const Header = () => {
+const Header = ({ userEmail, onSignOut }) => {
+  const location = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleToggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleSignOut = () => {
+    setIsMenuOpen(false);
+    onSignOut();
+  };
+
   return (
     <header className="header">
-      <img src={logo} alt="Логотип Место Россия" className="header__logo" />
+      <div
+        className={`header__menu ${isMenuOpen ? "header__menu_opened" : ""}`}
+      >
+        <span className="header__email">{userEmail}</span>
+        <button className="header__sign-out" onClick={handleSignOut}>
+          Выйти
+        </button>
+      </div>
+      <div className="header__container">
+        <img className="header__logo" src={logo} alt="Логотип Место Россия" />
+        {location.pathname === "/sign-in" && (
+          <Link to="/sign-up" className="header__link">
+            Регистрация
+          </Link>
+        )}
+        {location.pathname === "/sign-up" && (
+          <Link to="/sign-in" className="header__link">
+            Войти
+          </Link>
+        )}
+        {location.pathname === "/" && (
+          <>
+            <button
+              className={`header__menu-button ${
+                isMenuOpen ? "header__menu-button_opened" : ""
+              }`}
+              onClick={() => handleToggleMenu()}
+            ></button>
+            <nav className="header__nav">
+              <span className="header__email">{userEmail}</span>
+              <button className="header__sign-out" onClick={() => onSignOut()}>
+                Выйти
+              </button>
+            </nav>
+          </>
+        )}
+      </div>
     </header>
   );
 };

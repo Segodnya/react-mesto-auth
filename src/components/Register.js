@@ -21,11 +21,37 @@ const Register = ({ onRegister }) => {
   return (
     <div className="auth">
       <div className="auth__container">
-        <form name="register" className="auth__form" id="register-form" noValidate onSubmit={handleSubmit}>
+        <form
+          name="register"
+          className="auth__form"
+          id="register-form"
+          noValidate
+          onSubmit={handleSubmit}
+        >
           <h2 className="auth__title">Регистрация</h2>
-          <input name="email" className="auth__input" id="email-input" type="text" placeholder="Email" value={email} onChange={handleChangeEmail} />
-          <input name="password" className="auth__input" id="password-input" type="password" placeholder="Пароль" value={password} onChange={handleChangePassword} />
-          <button type="submit" className="auth__button-save" id="auth-button-save">
+          <input
+            name="email"
+            className="auth__input"
+            id="email-input"
+            type="text"
+            placeholder="Email"
+            value={email}
+            onChange={handleChangeEmail}
+          />
+          <input
+            name="password"
+            className="auth__input"
+            id="password-input"
+            type="password"
+            placeholder="Пароль"
+            value={password}
+            onChange={handleChangePassword}
+          />
+          <button
+            type="submit"
+            className="auth__button-save"
+            id="auth-button-save"
+          >
             Зарегистрироваться
           </button>
           <Link to="./sing-in" className="auth__button">
