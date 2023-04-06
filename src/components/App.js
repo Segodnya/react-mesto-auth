@@ -271,25 +271,31 @@ function App() {
         <div className="page__content">
           <Header onSignOut={handleSignOut} userEmail={profileEmail} />
           <Routes>
-            <Route path="/sign-in">
-              <Login onAuthorize={handleAuthorize} />
-            </Route>
+            <Route
+              path="/sign-in"
+              element={<Login onAuthorize={handleAuthorize} />}
+            />
 
-            <Route path="/sign-up">
-              <Register onRegister={handleRegister} />
-            </Route>
-
-            <ProtectedRoute
+            <Route
+              path="/sign-up"
+              element={<Register onRegister={handleRegister} />}
+            />
+            <Route
               path="/"
-              loggedIn={isLoggedIn}
-              component={Main}
-              onAddPlace={setIsAddPlacePopupOpen}
-              onEditProfile={setIsEditProfilePopupOpen}
-              onEditAvatar={setIsEditAvatarPopupOpen}
-              onCardClick={setSelectedCard}
-              cards={cards}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDeleteClick}
+              element={
+                <ProtectedRoute
+                  path="/"
+                  loggedIn={isLoggedIn}
+                  component={Main}
+                  onAddPlace={setIsAddPlacePopupOpen}
+                  onEditProfile={setIsEditProfilePopupOpen}
+                  onEditAvatar={setIsEditAvatarPopupOpen}
+                  onCardClick={setSelectedCard}
+                  cards={cards}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleCardDeleteClick}
+                />
+              }
             />
           </Routes>
 
