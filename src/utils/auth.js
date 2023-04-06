@@ -1,58 +1,44 @@
-import api from "./api";
+export const BASE_URL = "https://auth.nomoreparties.co";
 
-const BASE_URL = "https://auth.nomoreparties.co";
-
-class Auth {
-  constructor(options) {
-    this._baseUrl = options.baseUrl;
-    this._headers = options.headers;
+const handleResponse = (res) => {
+  if (res.ok) {
+    return res.json();
   }
+  return Promise.reject(`Err: ${res.status}`);
+};
 
-  _request(url, options) {
-    return fetch(url, options).then(this._handleResponse);
-  }
+export const register = async (email, password) => {
+  const res = await fetch(`${BASE_URL}/signup`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  });
+  return handleResponse(res);
+};
 
-  _handleResponse(res) {
-    if (res.ok) {
-      return res.json();
-    }
-    // если ошибка, отклоняем промис
-    return Promise.reject(`Err: ${res.status}`);
-  }
+export const authorize = async (email, password) => {
+  const res = await fetch(`${BASE_URL}/signin`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  });
+  return handleResponse(res);
+};
 
-  async register(email, password) {
-    return await this._request(`${this._baseUrl}/signup`, {
-      method: "POST",
-      headers: this._headers,
-      body: JSON.stringify({ email, password }),
-    });
-  }
-  async authorize(email, password) {
-    return await this._request(`${this._baseUrl}/signin`, {
-      method: "POST",
-      headers: this._headers,
-      body: JSON.stringify({ email, password }),
-    });
-  }
-  async getContent(token) {
-    return await this._request(`${this._baseUrl}/users/me`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  }
-}
-
-const auth = new Auth({
-  baseUrl: BASE_URL,
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
-  },
-});
-
-export default auth;
+export const getContent = async (token) => {
+  const res = await fetch(`${BASE_URL}/users/me`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return handleResponse(res);
+};

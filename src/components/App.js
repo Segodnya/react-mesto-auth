@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { Route, Routes, useHistory } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import api from "../utils/api";
-import auth from "../utils/auth";
+import * as auth from "../utils/auth";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupWithForm from "./PopupWithForm";
+// import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import AddPlacePopup from "./AddPlacePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
@@ -34,7 +34,7 @@ function App() {
   const [profileEmail, setProfileEmail] = useState("");
   //
   const [removedCardId, setRemovedCardId] = useState("");
-  const history = useHistory();
+  const history = useNavigate();
 
   // Проверка токена и авторизация пользователя
   useEffect(() => {
