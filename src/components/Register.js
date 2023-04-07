@@ -54,7 +54,8 @@ const Register = ({ onRegister }) => {
           >
             Зарегистрироваться
           </button>
-          <Link to="./sing-in" className="auth__button">
+
+          <Link to="/sign-in" className="auth__button">
             Уже зарегистрированы? Войти
           </Link>
         </form>

@@ -5,7 +5,6 @@ import * as auth from "../utils/auth";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-// import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import AddPlacePopup from "./AddPlacePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
@@ -32,9 +31,8 @@ function App() {
   const [cards, setCards] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [profileEmail, setProfileEmail] = useState("");
-  //
   const [removedCardId, setRemovedCardId] = useState("");
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   // Проверка токена и авторизация пользователя
   useEffect(() => {
@@ -45,7 +43,7 @@ function App() {
         .then((res) => {
           if (res) {
             setIsLoggedIn(true);
-            history.push("/");
+            navigate("/");
             setProfileEmail(res.data.email);
           }
         })
@@ -77,15 +75,6 @@ function App() {
     }
   }, [isLoggedIn]);
 
-  // const fetchCards = async () => {
-  //   try {
-  //     const res = await api.getInitialCards();
-  //     setCards(res);
-  //   } catch (e) {
-  //     console.warn(e);
-  //   }
-  // };
-
   const handleCardLike = async (card) => {
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -103,7 +92,6 @@ function App() {
     }
   };
 
-  // async ?
   const handleCardDelete = async (card) => {
     setIsLoading(true);
     try {
@@ -123,10 +111,6 @@ function App() {
     setIsConfirmPopupOpen(!isConfirmPopupOpen);
     setRemovedCardId(cardId);
   };
-
-  // useEffect(() => {
-  //   fetchCards();
-  // }, []);
 
   const handleUserUpdate = (newUserInfo) => {
     setIsLoading(true);
@@ -160,7 +144,6 @@ function App() {
       });
   };
 
-  // async ?
   const handleAddPlace = async (obj) => {
     setIsLoading(true);
     try {
@@ -175,27 +158,6 @@ function App() {
       setIsLoading(false);
     }
   };
-
-  // const fetchData = async () => {
-  //   try {
-  //     const profileObject = await api.getCurrentUserInfo();
-  //     setCurrentUser(profileObject);
-  //   } catch (e) {
-  //     console.warn(e);
-  //   }
-  // };
-
-  // // создайте эффект при монтировании,
-  // // который будет вызывать api.getCurrentUserInfo
-  // // и обновлять стейт-переменную из полученного значения.
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-
-  // const handleCardClick = (obj) => {
-  //   setIsImageOpen(true);
-  //   setSelectedCard(obj);
-  // };
 
   const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false);
@@ -215,7 +177,7 @@ function App() {
         if (res) {
           setIsSuccess(true);
           setIsInfoTooltipPopupOpen(true);
-          history.push("./sign-in");
+          navigate("/sign-in");
         }
       })
       .catch((err) => {
@@ -233,7 +195,7 @@ function App() {
         if (res) {
           setIsLoggedIn(true);
           localStorage.setItem("jwt", res.token);
-          history.push("./");
+          navigate("/");
         }
       })
       .catch((err) => {
@@ -247,20 +209,8 @@ function App() {
   const handleSignOut = () => {
     setIsLoggedIn(false);
     localStorage.removeItem("jwt");
-    history.push("/sign-in");
+    navigate("/sign-in");
   };
-
-  // const handleEditAvatarClick = () => {
-  //   setIsEditAvatarPopupOpen(true);
-  // };
-
-  // const handleEditProfileClick = () => {
-  //   setIsEditProfilePopupOpen(true);
-  // };
-
-  // const handleAddPlaceClick = () => {
-  //   setIsAddPlacePopupOpen(true);
-  // };
 
   return (
     // используйте провайдер объекта контекста:
@@ -345,14 +295,6 @@ function App() {
       </div>
     </CurrentUserContext.Provider>
   );
-
-  //
-
-  //         <PopupWithForm
-  //           title={"Вы уверены?"}
-  //           name={"del-content"}
-  //           btnText={"Да"}
-  //         />
 }
 
 export default App;
