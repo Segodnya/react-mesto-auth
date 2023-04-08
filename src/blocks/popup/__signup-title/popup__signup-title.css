@@ -1,4 +1,5 @@
 .popup__signup-title {
+  max-width: 358px;
   margin: 0;
   padding: 0;
   margin-bottom: 26px;

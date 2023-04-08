@@ -159,6 +159,11 @@ function App() {
     }
   };
 
+  const handleCardClick = (obj) => {
+    setIsImageOpen(true);
+    setSelectedCard(obj);
+  };
+
   const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
@@ -230,6 +235,7 @@ function App() {
               path="/sign-up"
               element={<Register onRegister={handleRegister} />}
             />
+
             <Route
               path="/"
               element={
@@ -240,7 +246,7 @@ function App() {
                   onAddPlace={setIsAddPlacePopupOpen}
                   onEditProfile={setIsEditProfilePopupOpen}
                   onEditAvatar={setIsEditAvatarPopupOpen}
-                  onCardClick={setSelectedCard}
+                  onCardClick={handleCardClick}
                   cards={cards}
                   onCardLike={handleCardLike}
                   onCardDelete={handleCardDeleteClick}

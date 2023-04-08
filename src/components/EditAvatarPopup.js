@@ -3,13 +3,12 @@ import PopupWithForm from "./PopupWithForm";
 import useForm from "../hooks/useForm";
 
 const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, onLoading }) => {
-  const { enteredValues, errors, handleChange, isFormValid, resetForm } =
-    useForm();
+  const { values, errors, handleChange, isFormValid, resetForm } = useForm();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onUpdateAvatar({
-      avatar: enteredValues.avatar,
+      avatar: values.avatar,
     });
   };
 
@@ -38,7 +37,7 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, onLoading }) => {
         name="avatar"
         placeholder="Ссылка на аватар"
         required
-        value={enteredValues.avatar || ""}
+        value={values.avatar || ""}
         onChange={handleChange}
       />
       <span className="popup__error avatar-input-error">{errors.avatar}</span>

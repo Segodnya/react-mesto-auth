@@ -6,9 +6,13 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-  color: #cccccc;
+  color: #fff;
   border: none;
-  border-bottom: 2px solid #cccccc;
+  border-bottom: 2px solid #ccc;
   outline: none;
   background-color: transparent;
+}
+
+.auth__input::placeholder {
+  color: #ccc;
 }

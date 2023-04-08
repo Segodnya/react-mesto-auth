@@ -3,14 +3,13 @@ import PopupWithForm from "./PopupWithForm";
 import useForm from "../hooks/useForm";
 
 const AddPlacePopup = ({ isOpen, onClose, onAddPlace, onLoading }) => {
-  const { enteredValues, errors, handleChange, isFormValid, resetForm } =
-    useForm();
+  const { values, errors, handleChange, isFormValid, resetForm } = useForm();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onAddPlace({
-      name: enteredValues.name,
-      link: enteredValues.link,
+      name: values.name,
+      link: values.link,
     });
   };
 
@@ -36,7 +35,7 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, onLoading }) => {
         id="add-content-name"
         type="text"
         name="name"
-        value={enteredValues.name || ""}
+        value={values.name || ""}
         onChange={handleChange}
         placeholder="Название"
         required
@@ -51,7 +50,7 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, onLoading }) => {
         type="url"
         name="link"
         id="add-content-link"
-        value={enteredValues.link || ""}
+        value={values.link || ""}
         onChange={handleChange}
         placeholder="Ссылка на картинку"
         required

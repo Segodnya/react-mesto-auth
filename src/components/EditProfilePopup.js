@@ -7,16 +7,15 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, onLoading }) => {
   // Подписка на контекст
   const currentUser = useContext(CurrentUserContext);
 
-  const { enteredValues, errors, handleChange, isFormValid, resetForm } =
-    useForm();
+  const { values, errors, handleChange, isFormValid, resetForm } = useForm();
 
   const handleSubmit = (e) => {
     // Запрещаем браузеру переходить по адресу формы
     e.preventDefault();
     // Передаём значения управляемых компонентов во внешний обработчик
     onUpdateUser({
-      name: enteredValues.name,
-      about: enteredValues.about,
+      name: values.name,
+      about: values.about,
     });
   };
 
@@ -44,7 +43,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, onLoading }) => {
         id="name-input"
         type="text"
         name="name"
-        value={enteredValues.name || ""}
+        value={values.name || ""}
         onChange={handleChange}
         placeholder="Ваше имя"
         required
@@ -59,7 +58,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, onLoading }) => {
         id="about-input"
         type="text"
         name="about"
-        value={enteredValues.about || ""}
+        value={values.about || ""}
         onChange={handleChange}
         placeholder="Ваша профессия"
         required

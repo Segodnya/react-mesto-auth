@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 
 const useForm = () => {
-  const [enteredValues, setEnteredValues] = useState({});
+  const [values, setvalues] = useState({});
   const [errors, setErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
 
@@ -9,8 +9,8 @@ const useForm = () => {
     const name = event.target.name;
     const value = event.target.value;
 
-    setEnteredValues({
-      ...enteredValues,
+    setvalues({
+      ...values,
       [name]: value,
     });
 
@@ -24,15 +24,15 @@ const useForm = () => {
 
   const resetForm = useCallback(
     (newValues = {}, newErrors = {}, newIsFormValid = false) => {
-      setEnteredValues(newValues);
+      setvalues(newValues);
       setErrors(newErrors);
       setIsFormValid(newIsFormValid);
     },
-    [setEnteredValues, setErrors, setIsFormValid]
+    [setvalues, setErrors, setIsFormValid]
   );
 
   return {
-    enteredValues,
+    values,
     errors,
     handleChange,
     isFormValid,
