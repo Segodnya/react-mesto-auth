@@ -18,13 +18,14 @@ const Main = ({
   const { name, avatar, about } = currentUser;
 
   const cardsElements = cards.map((card) => (
-    <Card
-      card={card}
-      key={card._id}
-      onCardClick={onCardClick}
-      onCardLike={onCardLike}
-      onCardDelete={onCardDelete}
-    />
+    <li key={card._id}>
+      <Card
+        card={card}
+        onCardClick={onCardClick}
+        onCardLike={onCardLike}
+        onCardDelete={onCardDelete}
+      />
+    </li>
   ));
 
   return (
