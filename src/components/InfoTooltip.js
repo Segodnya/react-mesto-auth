@@ -1,8 +1,14 @@
 import React from "react";
-import successImage from "../images/success-image.svg";
-import unsuccessImage from "../images/unsuccess-image.svg";
 
-function InfoTooltip({ isOpen, onClose, isSuccess }) {
+function InfoTooltip({
+  isOpen,
+  onClose,
+  isSuccess,
+  txtSuccess,
+  txtUnsuccess,
+  imgSuccess,
+  imgUnsuccess,
+}) {
   return (
     <div className={`popup ${isOpen ? "popup_opened" : ""}`}>
       <div className="popup__container">
@@ -14,14 +20,12 @@ function InfoTooltip({ isOpen, onClose, isSuccess }) {
         />
         <img
           className="popup__signup-image"
-          src={`${isSuccess ? successImage : unsuccessImage}`}
+          src={`${isSuccess ? imgSuccess : imgUnsuccess}`}
           alt=""
         />
-        <h2 className="popup__signup-title">{`${
-          isSuccess
-            ? "Вы успешно зарегистрировались!"
-            : "Что-то пошло не так! Попробуйте ещё раз."
-        }`}</h2>
+        <h2 className="popup__signup-title">
+          {isSuccess ? txtSuccess : txtUnsuccess}
+        </h2>
       </div>
     </div>
   );

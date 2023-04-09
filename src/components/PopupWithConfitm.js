@@ -1,7 +1,7 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
-const PopupWithConfirm = ({ isOpen, onClose, onSubmit, onLoading, card }) => {
+const PopupWithConfirm = ({ isOpen, onClose, onSubmit, isLoading, card }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(card);
@@ -11,11 +11,11 @@ const PopupWithConfirm = ({ isOpen, onClose, onSubmit, onLoading, card }) => {
     <PopupWithForm
       name="confirm"
       title="Удалить?"
-      btnText={onLoading ? `Удаление...` : `Удалить`}
+      btnText={isLoading ? `Удаление...` : `Удалить`}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
-      onLoading={onLoading}
+      isLoading={isLoading}
     ></PopupWithForm>
   );
 };

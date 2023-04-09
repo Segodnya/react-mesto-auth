@@ -17,6 +17,16 @@ const Main = ({
   // Используйте поля объекта контекста вместо стейт-переменных
   const { name, avatar, about } = currentUser;
 
+  const cardsElements = cards.map((card) => (
+    <Card
+      card={card}
+      key={card._id}
+      onCardClick={onCardClick}
+      onCardLike={onCardLike}
+      onCardDelete={onCardDelete}
+    />
+  ));
+
   return (
     <main>
       <section className="profile">
@@ -53,20 +63,7 @@ const Main = ({
         className="content"
         aria-label="Карточки с фотографиями пользователя"
       >
-        <ul className="content__list">
-          {cards.map((card) => (
-            <Card
-              card={card}
-              key={card._id}
-              title={card.name}
-              image={card.link}
-              likeCount={card.likes.length}
-              onCardClick={onCardClick}
-              onCardLike={onCardLike}
-              onCardDelete={onCardDelete}
-            />
-          ))}
-        </ul>
+        <ul className="content__list">{cardsElements}</ul>
       </section>
     </main>
   );

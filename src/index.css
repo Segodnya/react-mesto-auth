@@ -69,6 +69,7 @@
 @import url(./blocks/content/__like-button/_active/content__like-button_active.css);
 @import url(./blocks/content/__like-count/content__like-count.css);
 @import url(./blocks/content/__delete-button/content__delete-button.css);
+@import url(./blocks/content/__delete-button/_hidden/content__delete-button_hidden.css);
 
 /* Footer */
 @import url(./blocks/footer/footer.css);

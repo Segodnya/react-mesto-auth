@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 import useForm from "../hooks/useForm";
 
-const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, onLoading }) => {
+const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, isLoading }) => {
   const { values, errors, handleChange, isFormValid, resetForm } = useForm();
 
   const handleSubmit = (e) => {
@@ -21,9 +21,9 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, onLoading }) => {
       title="Обновить аватар"
       isOpen={isOpen}
       onClose={onClose}
-      btnText={onLoading ? `Сохранение` : `Сохранить`}
+      btnText={isLoading ? `Сохранение` : `Сохранить`}
       onSubmit={handleSubmit}
-      onLoading={onLoading}
+      isLoading={isLoading}
       isDisabled={!isFormValid}
     >
       <input

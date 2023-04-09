@@ -15,10 +15,12 @@ import Login from "./Login";
 import Register from "./Register";
 import InfoTooltip from "./InfoTooltip";
 import CurrentUserContext from "../contexts/CurrentUserContext";
+import successImage from "../images/success-image.svg";
+import unsuccessImage from "../images/unsuccess-image.svg";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [isSuccessTooltipStatus, setisSuccessTooltipStatus] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -29,7 +31,10 @@ function App() {
   // Создайте стейт currentUser в корневом компоненте
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingPopupProfile, setIsLoadingPopupProfile] = useState(false);
+  const [isLoadingPopupPlace, setIsLoadingPopupPlace] = useState(false);
+  const [isLoadingPopupAvatar, setIsLoadingPopupAvatar] = useState(false);
+  const [isLoadingPopupConfirm, setIsLoadingPopupConfirm] = useState(false);
   const [profileEmail, setProfileEmail] = useState("");
   const [removedCardId, setRemovedCardId] = useState("");
   const navigate = useNavigate();
@@ -51,27 +56,16 @@ function App() {
           console.log(err);
         });
     }
-  });
+  }, []);
 
   useEffect(() => {
     if (isLoggedIn) {
-      api
-        .getCurrentUserInfo()
-        .then((profileInfo) => {
+      Promise.all([api.getCurrentUserInfo(), api.getInitialCards()])
+        .then(([profileInfo, cardsData]) => {
           setCurrentUser(profileInfo);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-      api
-        .getInitialCards()
-        .then((cardsData) => {
           setCards(cardsData);
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch((err) => console.log(err));
     }
   }, [isLoggedIn]);
 
@@ -93,7 +87,7 @@ function App() {
   };
 
   const handleCardDelete = async (card) => {
-    setIsLoading(true);
+    setIsLoadingPopupConfirm(true);
     try {
       await api.deleteCard(card._id);
       setCards((arrayCardsUpdated) =>
@@ -103,17 +97,17 @@ function App() {
     } catch (e) {
       console.warn(e);
     } finally {
-      setIsLoading(false);
+      setIsLoadingPopupConfirm(false);
     }
   };
 
   const handleCardDeleteClick = (cardId) => {
-    setIsConfirmPopupOpen(!isConfirmPopupOpen);
+    setIsConfirmPopupOpen(true);
     setRemovedCardId(cardId);
   };
 
   const handleUserUpdate = (newUserInfo) => {
-    setIsLoading(true);
+    setIsLoadingPopupProfile(true);
     api
       .editUserInfo(newUserInfo)
       .then((data) => {
@@ -124,12 +118,12 @@ function App() {
         console.log(err);
       })
       .finally(() => {
-        setIsLoading(false);
+        setIsLoadingPopupProfile(false);
       });
   };
 
   const handleAvatarUpdate = (newAvatar) => {
-    setIsLoading(true);
+    setIsLoadingPopupAvatar(true);
     api
       .updateUserAvatar(newAvatar)
       .then((data) => {
@@ -140,14 +134,14 @@ function App() {
         console.log(err);
       })
       .finally(() => {
-        setIsLoading(false);
+        setIsLoadingPopupAvatar(false);
       });
   };
 
-  const handleAddPlace = async (obj) => {
-    setIsLoading(true);
+  const handleAddPlace = async (cardData) => {
+    setIsLoadingPopupPlace(true);
     try {
-      const newPlace = await api.addCard(obj);
+      const newPlace = await api.addCard(cardData);
       // После завершения API-запроса внутри него обновите стейт cards
       // с помощью расширенной копии текущего массива
       setCards([newPlace, ...cards]);
@@ -155,13 +149,13 @@ function App() {
     } catch (e) {
       console.warn(e);
     } finally {
-      setIsLoading(false);
+      setIsLoadingPopupPlace(false);
     }
   };
 
-  const handleCardClick = (obj) => {
+  const handleCardClick = (cardSelected) => {
     setIsImageOpen(true);
-    setSelectedCard(obj);
+    setSelectedCard(cardSelected);
   };
 
   const closeAllPopups = () => {
@@ -180,15 +174,16 @@ function App() {
       .register(email, password)
       .then((res) => {
         if (res) {
-          setIsSuccess(true);
-          setIsInfoTooltipPopupOpen(true);
+          setisSuccessTooltipStatus(true);
           navigate("/sign-in");
         }
       })
       .catch((err) => {
-        setIsSuccess(false);
-        setIsInfoTooltipPopupOpen(true);
+        setisSuccessTooltipStatus(false);
         console.log(err);
+      })
+      .finally(() => {
+        setIsInfoTooltipPopupOpen(true);
       });
   };
 
@@ -200,11 +195,12 @@ function App() {
         if (res) {
           setIsLoggedIn(true);
           localStorage.setItem("jwt", res.token);
+          setProfileEmail(email);
           navigate("/");
         }
       })
       .catch((err) => {
-        setIsSuccess(false);
+        setisSuccessTooltipStatus(false);
         setIsInfoTooltipPopupOpen(true);
         console.log(err);
       });
@@ -237,7 +233,7 @@ function App() {
             />
 
             <Route
-              path="/"
+              path="*"
               element={
                 <ProtectedRoute
                   path="/"
@@ -261,21 +257,21 @@ function App() {
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
             onAddPlace={handleAddPlace}
-            onLoading={isLoading}
+            isLoading={isLoadingPopupPlace}
           />
 
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
             onUpdateUser={handleUserUpdate}
-            onLoading={isLoading}
+            isLoading={isLoadingPopupProfile}
           />
 
           <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
             onUpdateAvatar={handleAvatarUpdate}
-            onLoading={isLoading}
+            isLoading={isLoadingPopupAvatar}
           />
 
           <ImagePopup
@@ -286,8 +282,12 @@ function App() {
 
           <InfoTooltip
             isOpen={isInfoTooltipPopupOpen}
-            isSuccess={isSuccess}
+            isSuccess={isSuccessTooltipStatus}
             onClose={closeAllPopups}
+            txtSuccess="Вы успешно зарегистрировались!"
+            txtUnsuccess="Что-то пошло не так! Попробуйте ещё раз."
+            imgSuccess={successImage}
+            imgUnsuccess={unsuccessImage}
           />
 
           <PopupWithConfirm
@@ -295,7 +295,7 @@ function App() {
             onClose={closeAllPopups}
             onSubmit={handleCardDelete}
             card={removedCardId}
-            onLoading={isLoading}
+            isLoading={isLoadingPopupConfirm}
           />
         </div>
       </div>

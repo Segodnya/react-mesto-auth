@@ -3,7 +3,7 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
 import useForm from "../hooks/useForm";
 
-const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, onLoading }) => {
+const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isLoading }) => {
   // Подписка на контекст
   const currentUser = useContext(CurrentUserContext);
 
@@ -31,9 +31,9 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, onLoading }) => {
       name="edit-profile"
       isOpen={isOpen}
       onClose={onClose}
-      btnText={onLoading ? `Сохранение` : `Сохранить`}
+      btnText={isLoading ? `Сохранение` : `Сохранить`}
       onSubmit={handleSubmit}
-      onLoading={onLoading}
+      isLoading={isLoading}
       isDisabled={!isFormValid}
     >
       <input

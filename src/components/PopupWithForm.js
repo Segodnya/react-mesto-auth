@@ -8,7 +8,7 @@ const PopupWithForm = ({
   onClose,
   btnText,
   onSubmit,
-  onLoading,
+  isLoading,
   isDisabled,
 }) => {
   return (
@@ -35,8 +35,9 @@ const PopupWithForm = ({
           <button
             type="submit"
             className={`button popup__button ${
-              onLoading ? "popup__button_loading" : ""
+              isLoading ? "popup__button_loading" : ""
             } ${isDisabled ? "popup__button_disabled" : ""} `}
+            disabled={isDisabled}
           >
             {btnText}
           </button>
