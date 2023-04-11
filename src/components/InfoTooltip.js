@@ -1,14 +1,6 @@
 import React from "react";
 
-function InfoTooltip({
-  isOpen,
-  onClose,
-  isSuccess,
-  txtSuccess,
-  txtUnsuccess,
-  imgSuccess,
-  imgUnsuccess,
-}) {
+function InfoTooltip({ isOpen, onClose, text, image }) {
   return (
     <div className={`popup ${isOpen ? "popup_opened" : ""}`}>
       <div className="popup__container">
@@ -18,14 +10,8 @@ function InfoTooltip({
           className="popup__close-button"
           onClick={onClose}
         />
-        <img
-          className="popup__signup-image"
-          src={`${isSuccess ? imgSuccess : imgUnsuccess}`}
-          alt=""
-        />
-        <h2 className="popup__signup-title">
-          {isSuccess ? txtSuccess : txtUnsuccess}
-        </h2>
+        <img className="popup__signup-image" src={image} alt="" />
+        <h2 className="popup__signup-title">{text}</h2>
       </div>
     </div>
   );

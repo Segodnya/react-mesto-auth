@@ -41,8 +41,15 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isLoading }) => {
         required
         minLength="2"
         maxLength="30"
+        autoComplete="off"
       />
-      <span className="popup__error name-input-error">{errors.name}</span>
+      <span
+        className={
+          errors.name ? "popup__error popup__error_visible" : "popup__error"
+        }
+      >
+        {errors.name}
+      </span>
       <input
         className={
           errors.link ? "popup__input popup__input_type_error" : "popup__input"
@@ -54,8 +61,15 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isLoading }) => {
         onChange={handleChange}
         placeholder="Ссылка на картинку"
         required
+        autoComplete="off"
       />
-      <span className="popup__error link-input-error">{errors.link}</span>
+      <span
+        className={
+          errors.link ? "popup__error popup__error_visible" : "popup__error"
+        }
+      >
+        {errors.link}
+      </span>
     </PopupWithForm>
   );
 };

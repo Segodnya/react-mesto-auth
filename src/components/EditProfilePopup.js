@@ -49,8 +49,15 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isLoading }) => {
         required
         minLength="2"
         maxLength="40"
+        autoComplete="off"
       />
-      <span className="popup__error name-input-error">{errors.name}</span>
+      <span
+        className={
+          errors.name ? "popup__error popup__error_visible" : "popup__error"
+        }
+      >
+        {errors.name}
+      </span>
       <input
         className={
           errors.about ? "popup__input popup__input_type_error" : "popup__input"
@@ -64,8 +71,15 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isLoading }) => {
         required
         minLength="2"
         maxLength="200"
+        autoComplete="off"
       />
-      <span className="popup__error about-input-error">{errors.about}</span>
+      <span
+        className={
+          errors.about ? "popup__error popup__error_visible" : "popup__error"
+        }
+      >
+        {errors.about}
+      </span>
     </PopupWithForm>
   );
 };

@@ -36,6 +36,7 @@ const Login = ({ onAuthorize }) => {
             placeholder="Email"
             value={email}
             onChange={handleChangeEmail}
+            autoComplete="off"
           />
           <input
             name="login-password"
@@ -45,6 +46,7 @@ const Login = ({ onAuthorize }) => {
             placeholder="Пароль"
             value={password}
             onChange={handleChangePassword}
+            autoComplete="off"
           />
           <button
             type="submit"

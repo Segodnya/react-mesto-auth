@@ -39,8 +39,15 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, isLoading }) => {
         required
         value={values.avatar || ""}
         onChange={handleChange}
+        autoComplete="off"
       />
-      <span className="popup__error avatar-input-error">{errors.avatar}</span>
+      <span
+        className={
+          errors.avatar ? "popup__error popup__error_visible" : "popup__error"
+        }
+      >
+        {errors.avatar}
+      </span>
     </PopupWithForm>
   );
 };

@@ -37,6 +37,7 @@ const Register = ({ onRegister }) => {
             placeholder="Email"
             value={email}
             onChange={handleChangeEmail}
+            autoComplete="off"
           />
           <input
             name="password"
@@ -46,6 +47,7 @@ const Register = ({ onRegister }) => {
             placeholder="Пароль"
             value={password}
             onChange={handleChangePassword}
+            autoComplete="off"
           />
           <button
             type="submit"

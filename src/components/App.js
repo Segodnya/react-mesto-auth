@@ -282,12 +282,13 @@ function App() {
 
           <InfoTooltip
             isOpen={isInfoTooltipPopupOpen}
-            isSuccess={isSuccessTooltipStatus}
             onClose={closeAllPopups}
-            txtSuccess="Вы успешно зарегистрировались!"
-            txtUnsuccess="Что-то пошло не так! Попробуйте ещё раз."
-            imgSuccess={successImage}
-            imgUnsuccess={unsuccessImage}
+            text={
+              isSuccessTooltipStatus
+                ? "Вы успешно зарегистрировались!"
+                : "Что-то пошло не так! Попробуйте ещё раз."
+            }
+            image={isSuccessTooltipStatus ? successImage : unsuccessImage}
           />
 
           <PopupWithConfirm
