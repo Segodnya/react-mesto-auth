@@ -21,6 +21,7 @@ import unsuccessImage from "../images/unsuccess-image.svg";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isSuccessTooltipStatus, setisSuccessTooltipStatus] = useState(false);
+
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -28,6 +29,14 @@ function App() {
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   const [isImageOpen, setIsImageOpen] = useState(false);
+  const isPopupOpen =
+    isEditProfilePopupOpen ||
+    isAddPlacePopupOpen ||
+    isEditAvatarPopupOpen ||
+    isInfoTooltipPopupOpen ||
+    isConfirmPopupOpen ||
+    isImageOpen;
+
   // Создайте стейт currentUser в корневом компоненте
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
@@ -212,6 +221,21 @@ function App() {
     localStorage.removeItem("jwt");
     navigate("/sign-in");
   };
+
+  // Закрытие поп-апа по клавише Esc
+  useEffect(() => {
+    function closeByEsc(evt) {
+      if (evt.key === "Escape") {
+        closeAllPopups();
+      }
+    }
+    if (isPopupOpen) {
+      document.addEventListener("keydown", closeByEsc);
+      return () => {
+        document.removeEventListener("keydown", closeByEsc);
+      };
+    }
+  }, [isPopupOpen]);
 
   return (
     // используйте провайдер объекта контекста:
